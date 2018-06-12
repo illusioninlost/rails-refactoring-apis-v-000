@@ -1,4 +1,5 @@
 require 'pry'
+
 class GithubService
 
   attr_reader :access_token
@@ -8,12 +9,13 @@ class GithubService
   end
 
   def authenticate!(client_id, client_secret, code)
+    binding.pry
     response = Faraday.post "https://github.com/login/oauth/access_token",
         {client_id: client_id, client_secret: client_secret, code: code},
         {'Accept' => 'application/json'}
     access_hash = JSON.parse(response.body)
     @access_token = access_hash["access_token"]
-    binding.pry
+  
   end
 
   def get_username
